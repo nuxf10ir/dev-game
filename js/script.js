@@ -11,7 +11,8 @@ jQuery.fn.cardGame = function(data) {
         $front = $("#card-front", $card),
         $back = $("#card-back", $card),
         questionTmpl = _.template($("#question__tmpl").html()),
-        answerTmpl = _.template($("#answer__tmpl").html());
+        answerTmpl = _.template($("#answer__tmpl").html()),
+        finishTmpl = _.template($("#finish__tmpl").html());
 
     $card.flip({
         trigger: 'manual',
@@ -22,7 +23,13 @@ jQuery.fn.cardGame = function(data) {
         var $this = $(e.currentTarget),
             questionId = $this.data("question");
 
-        $front.html(questionTmpl(_.extend(questionsData[questionId], {id: questionId})));
+        if (questionId === -1) {
+            $front.html(finishTmpl(_.extend(questionsData[questionId], {id: questionId})));
+        } else {
+            $front.html(questionTmpl(_.extend(questionsData[questionId], {id: questionId})));
+        }
+
+
         $card.flip(false);
 
     });
